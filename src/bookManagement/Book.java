@@ -15,7 +15,7 @@ public class Book {
     private Set<String> isbnSet;
     private List<Book> bookCollection = new ArrayList<>();
 
-    public Book(String title, String author, String ISBN, String genre, String publicationDate, int numberOfCopies) {
+    public Book(String title, String author, String genre, String publicationDate, int numberOfCopies,String ISBN) {
         this.title = title;
         this.author = author;
         this.ISBN = ISBN;
@@ -50,7 +50,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return title + "by" + author + " (ISBN: " + ISBN + ")";
+        return title + " " + "by" + " " + author + " " + " (ISBN: " + ISBN + ")" + " " + genre + " " + publicationDate + " " + numberOfCopies;
     }
 
 
@@ -71,13 +71,13 @@ public class Book {
 
                 String title = data[0].trim();
                 String author = data[1].trim();
-                String ISBN = data[2].trim();
+
                 String genre = data[3].trim();
                 String publicationDate = data[4].trim();
                 int numberOfCopies = Integer.parseInt(data[5].trim());
-
+                String ISBN = data[2].trim();
                 if (isUniqueISBN(ISBN)) {
-                    bookCollection.add(new Book(title, author, ISBN, genre, publicationDate, numberOfCopies));
+                    bookCollection.add(new Book(title, author, genre, publicationDate, numberOfCopies,ISBN));
                     isbnSet.add(ISBN);
                     added++;
                 } else {
@@ -101,27 +101,33 @@ public class Book {
     }
 
     public static void main(String[] args) {
-        Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald", "978-0743273565",
-                "Classic", "1925-04-10", 10);
+        Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald",
+                "Classic", "1925-04-10", 10,"978-0743273565");
         Scanner scan = new Scanner(System.in);
 
 
         book.readBooksFromCSV("./res/book.csv");
         book.displayBooks();
-
+        System.out.println("Enter the book name for more details : ");
         String input = scan.nextLine();
 
         String bookDetails = "";
+        int numberofcopy = 0;
         for (Book books : book.bookCollection) {
-            bookDetails = books.title + " by " + books.author + " (ISBN: " + books.ISBN + ")";
+            bookDetails = books.title + " by " + books.author + " (ISBN: " + books.ISBN + ")" + books.genre + " " + books.publicationDate + " " + books.numberOfCopies;
+           numberofcopy = books.numberOfCopies;
         }
         System.out.println();
         if (bookDetails.toLowerCase().contains(input.toLowerCase())) {
             System.out.println(bookDetails);
+            if(numberofcopy == 0){
+                System.err.println("Out of stock");
+            }else{
+                System.out.println("Copies avaivable :" + numberofcopy);
+            }
 
         } else {
             System.out.println("Sorry you input doesn't match!");
-
         }
 
     }
