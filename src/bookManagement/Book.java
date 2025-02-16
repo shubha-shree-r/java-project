@@ -3,10 +3,7 @@ package bookManagement;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Book {
     private String title;
@@ -97,7 +94,7 @@ public class Book {
 
     public void displayBooks() {
         System.out.println();
-        for (Book book :  bookCollection) {
+        for (Book book : bookCollection) {
 
             System.out.println(book);
         }
@@ -106,12 +103,30 @@ public class Book {
     public static void main(String[] args) {
         Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald", "978-0743273565",
                 "Classic", "1925-04-10", 10);
+        Scanner scan = new Scanner(System.in);
 
 
         book.readBooksFromCSV("./res/book.csv");
         book.displayBooks();
 
+        String input = scan.nextLine();
+
+        String bookDetails = "";
+        for (Book books : book.bookCollection) {
+            bookDetails = books.title + " by " + books.author + " (ISBN: " + books.ISBN + ")";
+        }
+        System.out.println();
+        if (bookDetails.toLowerCase().contains(input.toLowerCase())) {
+            System.out.println(bookDetails);
+
+        } else {
+            System.out.println("Sorry you input doesn't match!");
+
+        }
+
     }
+
+
 }
 
 
