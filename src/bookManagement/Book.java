@@ -82,26 +82,29 @@ public class Book {
         System.out.println("Publication Date: " + publicationDate);
         System.out.println("Number of Copies: " + numberOfCopies);
     }
-    // Method to check if ISBN is unique
-    public boolean isUniqueISBN(String isbn) {
-        return !isbnSet.contains(isbn);
+
+
+    public boolean isUniqueISBN(String isbn,String ISBN) {
+        return !(isbnSet.contains(isbn) && isbnSet.contains(ISBN));
     }
 
-    // Method to add a new book
-    public boolean addBook(String isbn) {
-        if (isUniqueISBN(isbn)) {
+
+    public boolean addBook(String isbn,String ISBN) {
+        if (isUniqueISBN(isbn,ISBN)) {
             isbnSet.add(isbn);
-            return true; // Successfully added
+            isbnSet.add(ISBN);
+            return true;
         }
-        return false; // ISBN already exists
+        return false;
     }
 
     public static void main(String[] args) {
         Book book = new Book("The Great Gatsby", "F. Scott Fitzgerald", "978-0743273565",
                 "Classic", "1925-04-10", 10);
         book.displayBookInfo();
-        System.out.println(book.addBook("978-0743273565"));
-        System.out.println(book.addBook("978-0743273562"));
-        System.out.println(book.addBook("978-0743273565"));
+        System.out.println(book.addBook("978-0743273565",book.getISBN()));
+        System.out.println(book.addBook("978-0743273569",book.getISBN()));
+        System.out.println(book.addBook("978-0743273565",book.getISBN()));
     }
 }
+
