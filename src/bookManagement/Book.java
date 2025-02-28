@@ -1,19 +1,21 @@
 package bookManagement;
 
+import transactionManagement.LibrarySystem;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 public class Book {
-    private String title;
-    private String author;
-    private String ISBN;
-    private String genre;
-    private String publicationDate;
-    private int numberOfCopies;
-    private Set<String> isbnSet;
-    private List<Book> bookCollection = new ArrayList<>();
+    public String title;
+    public String author;
+    public String ISBN;
+    public String genre;
+    public String publicationDate;
+    public int numberOfCopies;
+    public Set<String> isbnSet;
+    public List<Book> bookCollection = new ArrayList<>();
 
     public Book(String title, String author, String genre, String publicationDate, int numberOfCopies,String ISBN) {
         this.title = title;
@@ -23,10 +25,11 @@ public class Book {
         this.publicationDate = publicationDate;
         this.numberOfCopies = numberOfCopies;
         this.isbnSet = new HashSet<>();
-
+        bookCollection.add(this);
     }
+public Book(String data){
 
-
+}
     public String getISBN() {
         return ISBN;
     }
@@ -117,22 +120,26 @@ public class Book {
             bookDetails = books.title + " by " + books.author + " (ISBN: " + books.ISBN + ")" + books.genre + " " + books.publicationDate + " " + books.numberOfCopies;
            numberofcopy = books.numberOfCopies;
         }
+        book.findMyBook(bookDetails,input,numberofcopy);
         System.out.println();
-        if (bookDetails.toLowerCase().contains(input.toLowerCase())) {
-            System.out.println(bookDetails);
-            if(numberofcopy == 0){
-                System.err.println("Out of stock");
-            }else{
-                System.out.println("Copies avaivable :" + numberofcopy);
-            }
 
-        } else {
-            System.out.println("Sorry you input doesn't match!");
-        }
-
+        LibrarySystem librarySystem = new LibrarySystem();
+        librarySystem.borrowBooks(input);
     }
 
+ public void findMyBook(String bookDetails,String input,int numberofcopy){
+     if (bookDetails.toLowerCase().contains(input.toLowerCase())) {
+         System.out.println(bookDetails);
+         if(numberofcopy == 0){
+             System.err.println("Out of stock");
+         }else{
+             System.out.println("Copies avaivable :" + numberofcopy);
+         }
 
+     } else {
+         System.out.println("Sorry you input doesn't match!");
+     }
+ }
 }
 
 
